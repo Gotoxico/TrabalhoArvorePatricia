@@ -5,12 +5,39 @@
 #include "ArvorePatriciaPalavras.h"
 #include <math.h>
 
-unsigned bit(char* chave, int k, int bitsNaChave){
+/*unsigned bit(char* chave, int k, int bitsNaChave){
+    char* chaveBinario = (char*) malloc((strlen(chave) * 8 * + 1) * sizeof(char));
+    strncpy(chaveBinario, converterStringParaBinarioString(chave), strlen(chave) * 8);
+    chaveBinario[strlen(chave) * 8] = '\0';
+    printf("%s\n", chaveBinario);
     unsigned int chaveDecimal = 0;
-    for(int i = 0; chave[i] != '\0'; i++){
-        chaveDecimal = chaveDecimal + (int) chave[i];
+    int tamanho = strlen(chave);
+    for(int i = 0; chaveBinario[i] != '\0'; i++){
+        if(chaveBinario[i] == '1'){
+            chaveDecimal = chaveDecimal + (int) pow(2, tamanho - 1);
+        }
+        tamanho--;
     }
+    printf("%u\n", chaveDecimal);
+
     return chaveDecimal >> (bitsNaChave - 1 - k) & 1;
+}*/
+
+unsigned bit(char* chave, int k){
+    char* chaveBinario = converterStringParaBinarioString(chave);
+    int tamanho = strlen(chaveBinario);
+
+    if (k < 0 || k >= tamanho) {
+        printf("Bit fora de range");
+        free(chaveBinario);  
+        return NULL;
+    }
+
+    unsigned result = chaveBinario[k] - '0';
+
+    free(chaveBinario);
+
+    return result;
 }
 
 unsigned bitLetra(char chave, int k){
@@ -61,8 +88,6 @@ char* converterBinarioStringParaString(char* chave){
         contador++;
     }
 
-    printf("Contador: %d\t", contador);
-
     char* chaveString = (char*) malloc(((strlen(chave) / 8) + 1) * sizeof(char));
     unsigned int letraDecimal;
     int i = 0;
@@ -87,16 +112,16 @@ char* converterBinarioStringParaString(char* chave){
 void inicializaArvorePatricia(PATRICIANODE** arvore){
     *arvore = malloc(sizeof(PATRICIANODE));
 
-    (*arvore)->key = (char*) malloc((40 * 8 + 1) * sizeof(char));
-    char* chaveString = (char*) malloc(41 * sizeof(char));
-    for(int i = 0; i < 40; i++){
+    (*arvore)->key = (char*) malloc((10 * 8 + 1) * sizeof(char));
+    char* chaveString = (char*) malloc(11 * sizeof(char));
+    for(int i = 0; i < 10; i++){
         chaveString[i] = '}';
     }
 
-    chaveString[40] = '\0';
+    chaveString[10] = '\0';
 
-    strncpy((*arvore)->key, converterStringParaBinarioString(chaveString), (40 * 8));
-    (*arvore)->key[40 * 8] = '\0';
+    strncpy((*arvore)->key, converterStringParaBinarioString(chaveString), (10 * 8));
+    (*arvore)->key[10 * 8] = '\0';
 
     (*arvore)->left = (*arvore);
     (*arvore)->right = (*arvore);
@@ -108,7 +133,7 @@ PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w, int bitsNaChave){
     if(arvore->bit <= w){
         return arvore;
     }
-    if(bit(x, arvore->bit, bitsNaChave) == 0){
+    if(bit(x, arvore->bit) == 0){
         return buscaRec(arvore->left, x, arvore->bit, bitsNaChave);
     }
     else{
@@ -117,8 +142,11 @@ PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w, int bitsNaChave){
 }
 
 PATRICIANODE* busca(PATRICIANODE* arvore, char* x, int bitsNaChave){
+    char* xBinario = (char*) malloc(49 * sizeof(char));
+    strncpy(xBinario, converterStringParaBinarioString(x), 48);
+    xBinario[48] = '\0';
     PATRICIANODE* t = buscaRec(arvore->left, x, -1, bitsNaChave);
-    if(strcmp(t->key, x) == 0){
+    if(strcmp(t->key, xBinario) == 0){
         return t;
     }
     else{
@@ -131,9 +159,10 @@ PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
     if((arvore->bit >= w) || (arvore->bit) <= pai->bit){
         novo = malloc(sizeof(PATRICIANODE));
         novo->key = (char*) malloc(((strlen(chave) * 8) + 1) * sizeof(char));
-        strncpy(novo->key, converterStringParaBinarioString(chave), strlen(chave) * 8 + 1);
+        strncpy(novo->key, converterStringParaBinarioString(chave), strlen(chave) * 8);
+        novo->key[48] = '\0';
         novo->bit = w;
-        if(bit(chave, novo->bit, bitsNaChave) == 1){
+        if(bit(chave, novo->bit) == 1){
             novo->left = arvore;
             novo->right = novo;
         }
@@ -143,7 +172,7 @@ PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
         }
         return novo;
     }
-    if(bit(chave, arvore->bit, bitsNaChave) == 0){
+    if(bit(chave, arvore->bit) == 0){
         arvore->left = insereRec(arvore->left, chave, w, arvore, bitsNaChave);
     }
     else{
@@ -155,15 +184,15 @@ PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
 void insere(PATRICIANODE** arvore, char* chave, int bitsNaChave){
     int i;
     PATRICIANODE* t = buscaRec((*arvore)->left, chave, -1, bitsNaChave);
-    char* tKeyString = malloc((strlen(t->key)/8) * sizeof(char));
+    char* tKeyString = (char*) malloc((strlen(t->key)/8) + 1 * sizeof(char));
     strncpy(tKeyString, converterBinarioStringParaString(t->key), strlen(t->key)/8);
+    tKeyString[strlen(t->key)/8] = '\0';
 
     if(strcmp(chave, tKeyString) == 0){
         return;
     }
 
-
-    for(i = 0; bit(chave, i, bitsNaChave) == bit(t->key, i, bitsNaChave); i++);
+    for(i = 0; bit(chave, i) == bit(tKeyString, i); i++);
     (*arvore)->left = insereRec((*arvore)->left, chave, i, *arvore, bitsNaChave);
     free(tKeyString);
 }
@@ -308,14 +337,26 @@ void imprimir(PATRICIANODE* arvore, int bitsNaChave){
     printf("Chave: %s\t", arvore->key);
     printf("Chave em palavra: %s\t", converterBinarioStringParaString(arvore->key));
     printf("Bit: %d\n", arvore->bit);
+    if(arvore->key == arvore->left->key){
+        printf("Esquerda: Ele mesmo\n");
+    }
+    else{
+        printf("Esquerda: %s\n", arvore->left->key);
+    }
+    if(arvore->key == arvore->right->key){
+        printf("Direita: Ele mesmo\n");
+    }
+    else{
+        printf("Direita: %s\n", arvore->right->key);
+    }
 
     if(arvore->left != arvore && arvore->left->bit > arvore->bit){
-        printf("Subarvore esquerda:\n");
+        printf("Subarvore esquerda de %s:\n", arvore->key);
         imprimir(arvore->left, bitsNaChave);
     }
 
     if(arvore->right != arvore && arvore->right->bit > arvore->bit){
-        printf("Subarvore direita:\n");
+        printf("Subarvore direita de %s:\n", arvore->key);
         imprimir(arvore->right, bitsNaChave);
     }
 }

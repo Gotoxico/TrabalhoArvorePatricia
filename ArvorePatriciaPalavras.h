@@ -8,7 +8,7 @@ typedef struct patricianode {
     struct patricianode *right;  // Subárvore direita
 }PATRICIANODE;
 
-unsigned bit(char* chave, int k, int bitsNaChave);
+unsigned bit(char* chave, int k);
 unsigned bitLetra(char chave, int k);
 int calcularQuantidadeDigitoDecimalUIntMax();
 char* letraParaBinario(char chave);
