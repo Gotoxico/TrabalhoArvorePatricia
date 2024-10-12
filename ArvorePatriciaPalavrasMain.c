@@ -6,12 +6,33 @@
 int main(){
     PATRICIANODE* raiz;
     inicializaArvorePatricia(&raiz);
-    int opcao = 0, letrasNaChave, bitsNaChave;
+    int preoOpcao = 0, opcao = 0, letrasNaChave;
+    do{
+        printf("1 - Caso Teste Insercao 6 Letras\n2 - Caso Teste Busca 6 Letras\n4 - Inserir manualmente\nDigite uma opcao:");
+        scanf("%d", &preoOpcao);
+
+        switch(preoOpcao){
+            case 1:
+                casoTesteInsercao6Letras(raiz);
+                break;
+
+            case 2:
+                casoTesteBusca6Letras(raiz);
+                break;    
+
+            default:
+                printf("Opcao invalida!\n");
+                break;
+        }
+    }while(preoOpcao != 4);
+
+    inicializaArvorePatricia(&raiz);
+    
     printf("Digite quantidade de letras na chave: ");
     scanf("%d", &letrasNaChave);
     char* chave = malloc(letrasNaChave * sizeof(char));
-    bitsNaChave = letrasNaChave * 8;
-    
+    //bitsNaChave = letrasNaChave * 8;
+        
     do{
         printf("1 - Buscar chave\n2 - Inserir chave\n3 - Remover chave\n4 - Imprimir arvore\n5 - Sair\nDigite uma opcao:\n");
         scanf("%d", &opcao);
@@ -19,7 +40,7 @@ int main(){
             case 1:
                 printf("Digite chave a ser buscada com maximo %d letras: \n", letrasNaChave);
                 scanf("%s", chave);
-                if(busca(raiz, chave, bitsNaChave) != NULL){
+                if(busca(raiz, chave) != NULL){
                     printf("Chave %s encontrada\n", chave);
                 }
                 break;
@@ -27,7 +48,7 @@ int main(){
             case 2:
                 printf("Digite chave a ser inserida com maximo %d letras:\n", letrasNaChave);
                 scanf("%s", chave);
-                insere(&raiz, chave, bitsNaChave);
+                insere(&raiz, chave);
                 break;
 
             case 3:
@@ -37,7 +58,8 @@ int main(){
                 break;
 
             case 4:
-                imprimir(raiz, bitsNaChave);
+                system("cls");
+                imprimir(raiz);
                 break;
 
             default:
@@ -45,4 +67,5 @@ int main(){
                 break;
         }
     }while(opcao != 5);
+
 }

@@ -129,23 +129,23 @@ void inicializaArvorePatricia(PATRICIANODE** arvore){
 
 }
 
-PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w, int bitsNaChave){
+PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w){
     if(arvore->bit <= w){
         return arvore;
     }
     if(bit(x, arvore->bit) == 0){
-        return buscaRec(arvore->left, x, arvore->bit, bitsNaChave);
+        return buscaRec(arvore->left, x, arvore->bit);
     }
     else{
-        return buscaRec(arvore->right, x, arvore->bit, bitsNaChave);
+        return buscaRec(arvore->right, x, arvore->bit);
     }
 }
 
-PATRICIANODE* busca(PATRICIANODE* arvore, char* x, int bitsNaChave){
+PATRICIANODE* busca(PATRICIANODE* arvore, char* x){
     char* xBinario = (char*) malloc(49 * sizeof(char));
     strncpy(xBinario, converterStringParaBinarioString(x), 48);
     xBinario[48] = '\0';
-    PATRICIANODE* t = buscaRec(arvore->left, x, -1, bitsNaChave);
+    PATRICIANODE* t = buscaRec(arvore->left, x, -1);
     if(strcmp(t->key, xBinario) == 0){
         return t;
     }
@@ -154,7 +154,7 @@ PATRICIANODE* busca(PATRICIANODE* arvore, char* x, int bitsNaChave){
     }
 }
 
-PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai, int bitsNaChave){
+PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai){
     PATRICIANODE *novo;
     if((arvore->bit >= w) || (arvore->bit) <= pai->bit){
         novo = malloc(sizeof(PATRICIANODE));
@@ -173,17 +173,17 @@ PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
         return novo;
     }
     if(bit(chave, arvore->bit) == 0){
-        arvore->left = insereRec(arvore->left, chave, w, arvore, bitsNaChave);
+        arvore->left = insereRec(arvore->left, chave, w, arvore);
     }
     else{
-        arvore->right = insereRec(arvore->right, chave, w, arvore, bitsNaChave);
+        arvore->right = insereRec(arvore->right, chave, w, arvore);
     }
     return arvore;
 }
 
-void insere(PATRICIANODE** arvore, char* chave, int bitsNaChave){
+void insere(PATRICIANODE** arvore, char* chave){
     int i;
-    PATRICIANODE* t = buscaRec((*arvore)->left, chave, -1, bitsNaChave);
+    PATRICIANODE* t = buscaRec((*arvore)->left, chave, -1);
     char* tKeyString = (char*) malloc((strlen(t->key)/8) + 1 * sizeof(char));
     strncpy(tKeyString, converterBinarioStringParaString(t->key), strlen(t->key)/8);
     tKeyString[strlen(t->key)/8] = '\0';
@@ -193,7 +193,7 @@ void insere(PATRICIANODE** arvore, char* chave, int bitsNaChave){
     }
 
     for(i = 0; bit(chave, i) == bit(tKeyString, i); i++);
-    (*arvore)->left = insereRec((*arvore)->left, chave, i, *arvore, bitsNaChave);
+    (*arvore)->left = insereRec((*arvore)->left, chave, i, *arvore);
     free(tKeyString);
 }
 
@@ -329,7 +329,7 @@ void remove(PATRICIANODE** arvore, char* chave, int bitsNaChave){
     }
 }*/
 
-void imprimir(PATRICIANODE* arvore, int bitsNaChave){
+void imprimir(PATRICIANODE* arvore){
     if (arvore == NULL){
         return;
     }
@@ -352,29 +352,46 @@ void imprimir(PATRICIANODE* arvore, int bitsNaChave){
 
     if(arvore->left != arvore && arvore->left->bit > arvore->bit){
         printf("Subarvore esquerda de %s:\n", arvore->key);
-        imprimir(arvore->left, bitsNaChave);
+        imprimir(arvore->left);
     }
 
     if(arvore->right != arvore && arvore->right->bit > arvore->bit){
         printf("Subarvore direita de %s:\n", arvore->key);
-        imprimir(arvore->right, bitsNaChave);
+        imprimir(arvore->right);
     }
 }
 
-/*void printTree(PATRICIANODE* no, PATRICIANODE* arvore, int level){
-    if(no->bit == arvore->bit){
-        return;
+void casoTesteInsercao6Letras(PATRICIANODE* arvore){
+    insere(&arvore, "Banana");
+    imprimir(arvore);
+
+    insere(&arvore, "utopia");
+    system("cls");
+    imprimir(arvore);
+
+    insere(&arvore, "legado");
+    system("cls");
+    imprimir(arvore);
+
+    insere(&arvore, "Aferir");
+    system("cls");
+    imprimir(arvore);
+
+    insere(&arvore, "papiro");
+    system("cls");
+    imprimir(arvore);
+}
+
+void casoTesteBusca6Letras(PATRICIANODE* arvore){
+    if(busca(arvore, "papiro") != NULL){
+        printf("Chave papiro encontrada\n");
     }
-    if(no->bit <= level){
-        return;
+    
+    if(busca(arvore, "Banana") != NULL){
+        printf("Chave Banana encontrada\n");
     }
-    printTree(no->right, arvore, no->bit);
-    if(no->bit == 0){
-        printf()
+
+    if(busca(arvore, "utopia") != NULL){
+        printf("Chave utopia encontrada\n");
     }
-}*/
-
-
-
-
-
+}
