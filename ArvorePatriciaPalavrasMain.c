@@ -6,21 +6,67 @@
 int main(){
     PATRICIANODE* raiz;
     inicializaArvorePatricia(&raiz);
-    int preoOpcao = 0, opcao = 0, letrasNaChave;
+    int preoOpcao = 0, preoOpcao2 = 0, opcao = 0, letrasNaChave;
     do{
-        printf("1 - Caso Teste Insercao 6 Letras\n2 - Caso Teste Busca 6 Letras\n4 - Inserir manualmente\nDigite uma opcao:");
+        printf("1 - Caso 6 Letras\n2 - Caso 8 Letras\n3 - Inserir Manualmente\nDigite uma opcao: ");
         scanf("%d", &preoOpcao);
 
         switch(preoOpcao){
             case 1:
-                casoTesteInsercao6Letras(raiz);
-                break;
+                do{
+                    printf("1 - Insercao 6 Letras\n2 - Busca 6 Letras\n3 - Remocao 6 Letras\n4 - Sair\nDigite uma opcao: ");
+                    scanf("%d", &preoOpcao2);
+                    switch(preoOpcao2){
+                        case 1:
+                            casoTesteInsercao6Letras(raiz);
+                            break;
+
+                        case 2:
+                            casoTesteBusca6Letras(raiz);
+                            break;
+
+                        case 3:
+                            break;
+
+                        case 4:
+                            printf("Saiu!\n");
+                            break;
+                        
+                        default:
+                        printf("Opcao invalida!\n");
+                        break;
+                    }
+                }while(preoOpcao2 != 4);
+                return 0;
 
             case 2:
-                casoTesteBusca6Letras(raiz);
-                break;    
+                do{
+                    printf("1 - Insercao 8 Letras\n2 - Busca 8 Letras\n3 - Remocao 8 Letras\n4 - Sair\nDigite uma opcao: ");
+                    scanf("%d", &preoOpcao2);
+                    switch(preoOpcao2){
+                        case 1:
+                            casoTesteInsercao8Letras(raiz);
+                            break;
 
-            case 4:
+                        case 2:
+                            casoTesteBusca8Letras(raiz);
+                            break;
+
+                        case 3:
+                            break;
+
+                        case 4:
+                            printf("Saiu!\n");
+                            break;
+                        
+                        default:
+                        printf("Opcao invalida!\n");
+                        break;
+                    }
+                }while(preoOpcao2 != 4);
+                return 0;  
+
+            case 3:
                 printf("Insercao manual selecionado!\n");
                 break;
 
@@ -28,7 +74,7 @@ int main(){
                 printf("Opcao invalida!\n");
                 break;
         }
-    }while(preoOpcao != 4);
+    }while(preoOpcao != 3);
 
     inicializaArvorePatricia(&raiz);
     
@@ -70,5 +116,5 @@ int main(){
                 break;
         }
     }while(opcao != 5);
-
+    return 0;
 }

@@ -411,3 +411,34 @@ void casoTesteBusca6Letras(PATRICIANODE* arvore){
         printf("Chave utopia encontrada\n");
     }
 }
+
+void casoTesteInsercao8Letras(PATRICIANODE* arvore){
+    insere(&arvore, "Genocida");
+    imprimir(arvore);
+
+    insere(&arvore, "pandemia");
+    system("cls");
+    imprimir(arvore);
+
+    insere(&arvore, "Ardiloso");
+    system("cls");
+    imprimir(arvore);
+
+    insere(&arvore, "prudente");
+    system("cls");
+    imprimir(arvore);
+}
+
+void casoTesteBusca8Letras(PATRICIANODE* arvore){
+    if(busca(arvore, "pandemia") != NULL){
+        printf("Chave pandemia encontrada\n");
+    }
+    
+    if(busca(arvore, "Banana") != NULL){
+        printf("Chave Banana encontrada\n");
+    }
+
+    if(busca(arvore, "Ardiloso") != NULL){
+        printf("Chave Ardiloso encontrada\n");
+    }
+}

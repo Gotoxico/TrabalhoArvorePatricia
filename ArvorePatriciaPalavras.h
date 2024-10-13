@@ -24,6 +24,8 @@ void remover(PATRICIANODE** arvore, char* chave);
 void imprimir(PATRICIANODE* arvore);
 void casoTesteInsercao6Letras(PATRICIANODE* arvore);
 void casoTesteBusca6Letras(PATRICIANODE* arvore);
+void casoTesteInsercao8Letras(PATRICIANODE* arvore);
+void casoTesteBusca8Letras(PATRICIANODE* arvore);
 
 #include "ArvorePatriciaPalavras.c"
 #endif
