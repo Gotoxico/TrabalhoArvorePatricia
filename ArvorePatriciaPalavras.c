@@ -200,10 +200,13 @@ void insere(PATRICIANODE** arvore, char* chave){
 PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai){
     printf("Chegou removeRec\n");
     printf("Chave: %s\n", arvore->key);
+    printf("Bit: %d", arvore->bit);
     //Caso seja o no dummy
     if(arvore->bit == -1 && strcmp(chave, arvore->key) == 0){
+        printf("Entrou");
         arvore->left = NULL;
         arvore->right = NULL;
+        free(arvore);
         return NULL;
     }
     printf("Checou pra ver se nn e dummy\n");
@@ -341,7 +344,10 @@ void remover(PATRICIANODE** arvore, char* chave){
         return;
     }
     else{
-        removeRec((*arvore), chave, -1, NULL);
+        char* chaveBinario = (char*) malloc(((strlen(chave) * 8) + 1) * sizeof(char));
+        strncpy(chaveBinario, converterStringParaBinarioString(chave), strlen(chave) * 8);
+        chaveBinario[strlen(chave) * 8] = '\0';
+        removeRec((*arvore), chaveBinario, -1, NULL);
     }
 }
 
@@ -441,4 +447,8 @@ void casoTesteBusca8Letras(PATRICIANODE* arvore){
     if(busca(arvore, "Ardiloso") != NULL){
         printf("Chave Ardiloso encontrada\n");
     }
+}
+
+void removerDummyNode(PATRICIANODE **arvore){
+    remover(arvore, "}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
 }

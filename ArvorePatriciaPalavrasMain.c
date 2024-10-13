@@ -6,7 +6,11 @@
 int main(){
     PATRICIANODE* raiz;
     inicializaArvorePatricia(&raiz);
-    int preoOpcao = 0, preoOpcao2 = 0, opcao = 0, letrasNaChave;
+    if(busca(raiz, "}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")){
+        printf("Dummy node encontrado\n");
+    }
+    
+    int preoOpcao = 0, preoOpcao2 = 0, opcao = 0, opcao2 = 0, letrasNaChave;
     do{
         printf("1 - Caso 6 Letras\n2 - Caso 8 Letras\n3 - Inserir Manualmente\nDigite uma opcao: ");
         scanf("%d", &preoOpcao);
@@ -83,7 +87,7 @@ int main(){
     char* chave = malloc(letrasNaChave * sizeof(char));
         
     do{
-        printf("1 - Buscar chave\n2 - Inserir chave\n3 - Remover chave\n4 - Imprimir arvore\n5 - Sair\nDigite uma opcao:\n");
+        printf("1 - Buscar chave\n2 - Inserir chave\n3 - Remover chave\n4 - Imprimir arvore\n5 - Sair\nDigite uma opcao: ");
         scanf("%d", &opcao);
         switch(opcao){
             case 1:
@@ -101,9 +105,22 @@ int main(){
                 break;
 
             case 3:
-                printf("Digite chave a ser removida com maximo %d letras:\n", letrasNaChave);
-                scanf("%s", chave);
-                remover(&raiz, chave);
+                printf("1 - Remover No Dummy\n2 - Remover Qualquer Outro No\nDigite uma opcao: ");
+                scanf("%d", &opcao2);
+
+                if(opcao2 == 1){
+                    removerDummyNode(&raiz);
+                    return 0;
+                    break;
+                }
+                else{
+                    if(opcao2 == 2){
+                        printf("Digite chave a ser removida com maximo %d letras:\n", letrasNaChave);
+                        scanf("%s", chave);
+                        remover(&raiz, chave);
+                        break;
+                    }
+                }
                 break;
 
             case 4:
