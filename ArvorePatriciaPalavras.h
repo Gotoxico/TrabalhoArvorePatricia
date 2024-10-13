@@ -19,9 +19,12 @@ PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w);
 PATRICIANODE* busca(PATRICIANODE* arvore, char* x);
 PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai);
 void insere(PATRICIANODE** arvore, char* chave);
+PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai);
+void remover(PATRICIANODE** arvore, char* chave);
 void imprimir(PATRICIANODE* arvore);
 void casoTesteInsercao6Letras(PATRICIANODE* arvore);
 void casoTesteBusca6Letras(PATRICIANODE* arvore);
 
 #include "ArvorePatriciaPalavras.c"
 #endif
+

@@ -20,6 +20,10 @@ int main(){
                 casoTesteBusca6Letras(raiz);
                 break;    
 
+            case 4:
+                printf("Insercao manual selecionado!\n");
+                break;
+
             default:
                 printf("Opcao invalida!\n");
                 break;
@@ -31,7 +35,6 @@ int main(){
     printf("Digite quantidade de letras na chave: ");
     scanf("%d", &letrasNaChave);
     char* chave = malloc(letrasNaChave * sizeof(char));
-    //bitsNaChave = letrasNaChave * 8;
         
     do{
         printf("1 - Buscar chave\n2 - Inserir chave\n3 - Remover chave\n4 - Imprimir arvore\n5 - Sair\nDigite uma opcao:\n");
@@ -54,7 +57,7 @@ int main(){
             case 3:
                 printf("Digite chave a ser removida com maximo %d letras:\n", letrasNaChave);
                 scanf("%s", chave);
-                //remove(&raiz, chave, bitsNaChave);
+                remover(&raiz, chave);
                 break;
 
             case 4:
