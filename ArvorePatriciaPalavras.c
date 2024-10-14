@@ -23,6 +23,13 @@
     return chaveDecimal >> (bitsNaChave - 1 - k) & 1;
 }*/
 
+/*
+@brief Extrai o bit duma posicao numa palavra
+
+@param chave Chave em palavra que será convertida para string binaria
+@return bit de diferenciacao
+*/
+
 unsigned bit(char* chave, int k){
     char* chaveBinario = converterStringParaBinarioString(chave);
     int tamanho = strlen(chaveBinario);
@@ -40,21 +47,23 @@ unsigned bit(char* chave, int k){
     return result;
 }
 
+/*
+@brief Extrai o bit duma posicao numa letra
+
+@param chave Letra em caracter
+@param k deslocamento na cadeia de bits
+@return bit
+*/
 unsigned bitLetra(char chave, int k){
     return (chave >> (7 - k)) & 1;
 }
 
-int calcularQuantidadeDigitoDecimalUIntMax(){
-    int quantidade = 0;
-    unsigned int numero = UINT_MAX;
-    while(numero > 0){
-        quantidade++;
-        numero >>=1;
-    }
-    return quantidade;
-}
+/*
+@brief Converte um decimal que esta em string para a representacao em binario em string
 
-//Converte um decimal que esta em string para a representacao em binario em string
+@param chave Letra em caracter
+@return String com representacao binaria da letra
+*/
 char* letraParaBinario(char chave){
     char* binario = (char*) malloc((9) * sizeof(char));
 
@@ -66,7 +75,12 @@ char* letraParaBinario(char chave){
     return binario;
 }
 
-//Converte string de letras para string de binario
+/*
+@brief Converte string de letras para string de binario
+
+@param chave palavra em string
+@return String com representacao binaria da palavra
+*/
 char* converterStringParaBinarioString(char* chave){
     char* chaveBinaria = (char*) malloc((strlen(chave) * 8 + 1) * sizeof(char));
     chaveBinaria[0] = '\0';
@@ -81,7 +95,12 @@ char* converterStringParaBinarioString(char* chave){
     return chaveBinaria;
 }
 
-//Converte binario armazenado como string para string de letras
+/*@brief Converte binario armazenado como string para string de letras
+
+@param chave representacao binaria em string
+@return palavra em string
+*/
+
 char* converterBinarioStringParaString(char* chave){
     int contador = 0, tamanho = strlen(chave);
     for(int i = 0; i < tamanho; i++){
@@ -109,6 +128,12 @@ char* converterBinarioStringParaString(char* chave){
     return chaveString;
 }
 
+/*@brief Inicializa a arvore patricia com 40 * "}" e bit = -1
+
+@param arvore raiz da arvore
+@return none
+*/
+
 void inicializaArvorePatricia(PATRICIANODE** arvore){
     *arvore = malloc(sizeof(PATRICIANODE));
 
@@ -128,6 +153,15 @@ void inicializaArvorePatricia(PATRICIANODE** arvore){
     (*arvore)->bit = -1;
 }
 
+/*@brief Parte recursiva da busca por uma chave
+
+@param arvore raiz da arvore
+@param x chave a ser buscada
+@param w bit discriminante
+
+@return PATRICIANODE
+*/
+
 PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w){
     if(arvore->bit <= w){
         return arvore;
@@ -139,6 +173,14 @@ PATRICIANODE* buscaRec(PATRICIANODE* arvore, char* x, int w){
         return buscaRec(arvore->right, x, arvore->bit);
     }
 }
+
+/*@brief Parte chamada da busca por uma chave
+
+@param arvore raiz da arvore
+@param x chave a ser buscada em string de palavra
+
+@return PATRICIANODE ou NULL
+*/
 
 PATRICIANODE* busca(PATRICIANODE* arvore, char* x){
     int tamanhoStringBinario = strlen(x) * 8;
@@ -153,6 +195,16 @@ PATRICIANODE* busca(PATRICIANODE* arvore, char* x){
         return NULL;
     }
 }
+
+/*@brif Parte recursiva da insercao de uma chave
+
+@param arvore raiz da arvore
+@param chave chave a ser inserida em string de palavra
+@param w bit discriminante
+@param pai no anterior ao no em trabalho
+
+@return PATRICIANODE
+*/
 
 PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai){
     PATRICIANODE *novo;
@@ -181,6 +233,14 @@ PATRICIANODE* insereRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
     return arvore;
 }
 
+/*@brief Parte chamada da insercao de uma chave
+
+@param arvore raiz da arvore
+@param chave chave a ser inserida em string de palavra
+
+@return none
+*/
+
 void insere(PATRICIANODE** arvore, char* chave){
     int i;
     PATRICIANODE* t = buscaRec((*arvore)->left, chave, -1);
@@ -196,6 +256,16 @@ void insere(PATRICIANODE** arvore, char* chave){
     (*arvore)->left = insereRec((*arvore)->left, chave, i, *arvore);
     free(tKeyString);
 }
+
+/*@brief Parte recursiva da remocao de uma chave
+
+@param arvore raiz da arvore
+@param chave chave a ser removida em string binaria
+@param w bit discriminante
+@param pai no anterior ao no em trabalho
+
+@return NULL ou PATRICIANODE
+*/
 
 PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* pai){
     printf("Chegou removeRec\n");
@@ -341,6 +411,14 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
     return arvore;
 }
 
+/*@brief Parte chamada da remocao de uma chave
+
+@param arvore raiz da arvore
+@chave chave em string de palavras
+
+@return none
+*/
+
 void remover(PATRICIANODE** arvore, char* chave){
     if(busca((*arvore), chave) == NULL){
         return;
@@ -349,10 +427,16 @@ void remover(PATRICIANODE** arvore, char* chave){
         char* chaveBinario = (char*) malloc(((strlen(chave) * 8) + 1) * sizeof(char));
         strncpy(chaveBinario, converterStringParaBinarioString(chave), strlen(chave) * 8);
         chaveBinario[strlen(chave) * 8] = '\0';
-        (*arvore) = removeRec((*arvore), chaveBinario, -1, NULL);
+        (*arvore)->left = removeRec((*arvore)->left, chaveBinario, -1, (*arvore));
         free(chaveBinario);
     }
 }
+
+/*@brif Impressao da arvore
+
+@param arvore raiz da arvore
+@return none
+*/
 
 void imprimir(PATRICIANODE* arvore){
     if (arvore == NULL){
@@ -385,6 +469,8 @@ void imprimir(PATRICIANODE* arvore){
         imprimir(arvore->right);
     }
 }
+
+
 
 void casoTesteInsercao6Letras(PATRICIANODE* arvore){
     insere(&arvore, "Banana");
@@ -452,6 +538,11 @@ void casoTesteBusca8Letras(PATRICIANODE* arvore){
     }
 }
 
+/*@brief Selecao da remocao do no dummy
+
+@param arvore raiz da arvore
+@return none
+*/
 void removerDummyNode(PATRICIANODE **arvore){
     remover(arvore, "}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
 }

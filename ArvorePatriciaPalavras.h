@@ -10,7 +10,6 @@ typedef struct patricianode {
 
 unsigned bit(char* chave, int k);
 unsigned bitLetra(char chave, int k);
-int calcularQuantidadeDigitoDecimalUIntMax();
 char* letraParaBinario(char chave);
 char* converterStringParaBinarioString(char* chave);
 char* converterBinarioStringParaString(char* chave);
