@@ -212,13 +212,13 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
     printf("Checou pra ver se nn e dummy\n");
 
     //Caso possua o apontador esquerdo apontando para si proprio, verificar se está a esquerda ou a direita do pai e depois apontar do pai para o filho
-    if(arvore->left == arvore && bit(chave, pai->bit) == 0 && strcmp(chave, arvore->key) == 0){
+    if(arvore->bit != -1 && arvore->left == arvore && bit(chave, pai->bit) == 0 && strcmp(chave, arvore->key) == 0){
         printf("Chegou apontador esquerdo\n");
         pai->left = arvore->right;
         free(arvore);
         return NULL;
     }
-    if(arvore->left == arvore && bit(chave, pai->bit) && strcmp(chave, arvore->key) == 0){
+    if(arvore->bit != -1 && arvore->left == arvore && bit(chave, pai->bit) && strcmp(chave, arvore->key) == 0){
         printf("Chegou apontador esquerdo\n");
         pai->right = arvore->right;
         free(arvore);
@@ -227,13 +227,13 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
     printf("Checou pra ver se nn tem ponteiro esquerda pra ele msm\n");
 
     //Quase mesma coisa que o caso anterior, no entanto caso possua o apontador direito apontando para si proprio
-    if(arvore->right == arvore && bit(chave, pai->bit) == 0 && strcmp(chave, arvore->key) == 0){
+    if(arvore->bit != -1 && arvore->right == arvore && bit(chave, pai->bit) == 0 && strcmp(chave, arvore->key) == 0){
         printf("Chegou apontador direito\n");
         pai->left = arvore->left;
         free(arvore);
         return NULL;
     }
-    if(arvore->right == arvore && bit(chave, pai->bit) && strcmp(chave, arvore->key) == 0){
+    if(arvore->bit != -1 && arvore->right == arvore && bit(chave, pai->bit) && strcmp(chave, arvore->key) == 0){
         printf("Chegou apontador direito\n");
         pai->right = arvore->left;
         free(arvore);
@@ -270,7 +270,6 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
                 arvore = arvore->right;
             }
             pai->left = arvore;
-            return NULL;
         }
 
         //Se o no arvore a ser removido estava a direita do pai, apontar o pai direita para o mais a esquerda dos filhos de arvore
@@ -279,8 +278,10 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
                 arvore = arvore->left;
             }
             pai->right = arvore;
-            return NULL;
         }
+
+        free(arvore);
+        return NULL;
     }
     printf("Checou pra ver se nn possui apontador esquerda pro no que contem a chave\n");
 
@@ -313,7 +314,6 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
                 arvore = arvore->right;
             }
             pai->left = arvore;
-            return NULL;
         }
 
         //Se o no arvore a ser removido estava a direita do pai, apontar o pai direita para o mais a esquerda dos filhos de arvore
@@ -322,8 +322,10 @@ PATRICIANODE* removeRec(PATRICIANODE* arvore, char* chave, int w, PATRICIANODE* 
                 arvore = arvore->left;
             }
             pai->right = arvore;
-            return NULL;
         }
+
+        free(arvore);
+        return NULL;
     }
     printf("Checou pra ver se nn possui apontador direita pro no que contem a chave\n");
 
@@ -347,7 +349,8 @@ void remover(PATRICIANODE** arvore, char* chave){
         char* chaveBinario = (char*) malloc(((strlen(chave) * 8) + 1) * sizeof(char));
         strncpy(chaveBinario, converterStringParaBinarioString(chave), strlen(chave) * 8);
         chaveBinario[strlen(chave) * 8] = '\0';
-        removeRec((*arvore), chaveBinario, -1, NULL);
+        (*arvore) = removeRec((*arvore), chaveBinario, -1, NULL);
+        free(chaveBinario);
     }
 }
 
