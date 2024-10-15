@@ -1,3 +1,5 @@
+//Rodrigo Isao Goto
+
 #ifndef ARVOREPATRICIAPALAVRAS_H
 #define ARVOREPATRICIAPALAVRAS_H
 
