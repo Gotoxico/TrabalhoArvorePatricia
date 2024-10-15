@@ -30,6 +30,7 @@ int main(){
                             break;
 
                         case 3:
+                            casoTesteRemocao6Letras(raiz);
                             break;
 
                         case 4:
@@ -57,6 +58,7 @@ int main(){
                             break;
 
                         case 3:
+                            casoTesteRemocao8Letras(raiz);
                             break;
 
                         case 4:

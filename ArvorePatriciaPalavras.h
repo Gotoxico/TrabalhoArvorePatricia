@@ -25,6 +25,8 @@ void casoTesteInsercao6Letras(PATRICIANODE* arvore);
 void casoTesteBusca6Letras(PATRICIANODE* arvore);
 void casoTesteInsercao8Letras(PATRICIANODE* arvore);
 void casoTesteBusca8Letras(PATRICIANODE* arvore);
+void casoTesteRemocao6Letras(PATRICIANODE* arvore);
+void casoTesteRemocao8Letras(PATRICIANODE* arvore)
 void removerDummyNode(PATRICIANODE **arvore);
 
 #include "ArvorePatriciaPalavras.c"

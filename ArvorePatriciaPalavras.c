@@ -569,6 +569,19 @@ void casoTesteBusca8Letras(PATRICIANODE* arvore){
     }
 }
 
+void casoTesteRemocao6Letras(PATRICIANODE* arvore){
+    inicializaArvorePatricia(&arvore);
+    insere(&arvore, "Banana");
+    insere(&arvore, "utopia");
+    remover(&arvore, "Banana");
+    remover(&arvore, "utopia");
+    removerDummyNode(&arvore);
+}
+
+void casoTesteRemocao8Letras(PATRICIANODE* arvore){
+    remover(&arvore, "pandemia");
+}
+
 /*@brief Selecao da remocao do no dummy
 
 @param arvore raiz da arvore
